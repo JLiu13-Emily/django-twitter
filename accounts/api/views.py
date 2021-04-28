@@ -34,7 +34,7 @@ class AccountViewSet(viewsets.ViewSet):
         if not serializer.is_valid():
             return Response({
                 "success": False,
-                "message": "Please check input",
+                "message": "Please check input.",
                 "errors": serializer.errors,
             }, status=400)
         username = serializer.validated_data['username']
@@ -93,7 +93,9 @@ class AccountViewSet(viewsets.ViewSet):
         """
         查看用户当前的登录状态和具体信息
         """
-        data = {'has_logged_in': request.user.is_authenticated}
+        data = {
+            'has_logged_in': request.user.is_authenticated,
+            'ip': request.META['REMOTE_ADDR'], }
         if request.user.is_authenticated:
             data['user'] = UserSerializer(request.user).data
         return Response(data)
